@@ -24,7 +24,7 @@ func main() {
 		str = color(str, "ok", passing)
 		str = color(str, "--- FAIL", failing)
 		str = color(str, "FAIL", failing)
-		str = color(str, "=== RUN", passing)
+		str = color(str, "=== RUN", running)
 		fmt.Println(str)
 	}
 	if err := scanner.Err(); err != nil {
