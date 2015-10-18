@@ -1,5 +1,9 @@
 # go-testcolorize
 
-Colorize your go test output! 
+Colorize your go test output!
 
-Still needs tests.
+Example:
+```
+$ go test -v ./... | go-testcolorize
+```
+
