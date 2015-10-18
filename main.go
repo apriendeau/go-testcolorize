@@ -4,34 +4,21 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
-	"github.com/jwaldrip/tint"
+	"github.com/apriendeau/go-testcolorize/colorize"
 )
 
-const (
-	passing = tint.LightGreen
-	running = tint.Cyan
-	failing = tint.LightRed
+var (
+	Input = os.Stdin
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(Input)
+
 	for scanner.Scan() {
-		str := scanner.Text()
-		str = color(str, "--- PASS", passing)
-		str = color(str, "PASS", passing)
-		str = color(str, "ok", passing)
-		str = color(str, "--- FAIL", failing)
-		str = color(str, "FAIL", failing)
-		str = color(str, "=== RUN", running)
-		fmt.Println(str)
+		fmt.Println(colorize.Color(scanner.Text()))
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
-}
-
-func color(old, value string, color int) string {
-	return strings.Replace(old, value, tint.Colorize(value, color), -1)
 }
