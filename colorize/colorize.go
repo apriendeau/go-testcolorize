@@ -24,7 +24,7 @@ func Color(str string) string {
 	colors := []ColorInfo{
 		{"--- PASS", passing, ""},
 		{"PASS", passing, "^PASS$"},
-		{"ok", passing, ""},
+		{"ok", passing, "^ok"},
 		{"--- FAIL", failing, ""},
 		{"FAIL", failing, "^FAIL$"},
 		{"=== RUN", running, ""},
