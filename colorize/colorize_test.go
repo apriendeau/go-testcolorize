@@ -24,8 +24,13 @@ func TestColorize(t *testing.T) {
 	}
 	for _, str := range strs {
 		msg, err := colorize.Color(str.text)
-		if err != nil && err != colorize.ErrFailExitCode {
-			t.Errorf(err.Error())
+		if err != nil {
+			if str.text == "FAIL" && err != colorize.ErrFailExitCode {
+				t.Errorf("FAIL should have an err: " + colorize.ErrFailExitCode.Error())
+			}
+			if str.text != "FAIL" {
+				t.Errorf(err.Error())
+			}
 		}
 		sample := colorize.Dye(str.text, str.text, str.color)
 
