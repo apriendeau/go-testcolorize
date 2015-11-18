@@ -1,6 +1,7 @@
 package colorize
 
 import (
+	"errors"
 	"regexp"
 	"strings"
 
@@ -8,10 +9,15 @@ import (
 )
 
 const (
-	passing  = tint.LightGreen
-	running  = tint.Cyan
-	failing  = tint.LightRed
-	skipping = tint.Yellow
+	passing   = tint.LightGreen
+	running   = tint.Cyan
+	failing   = tint.LightRed
+	skipping  = tint.Yellow
+	FailRegex = "^FAIL$"
+)
+
+var (
+	ErrFailExitCode = errors.New("go test failed, exit code 1")
 )
 
 type ColorInfo struct {
@@ -20,35 +26,43 @@ type ColorInfo struct {
 	regex string
 }
 
-func Color(str string) string {
+func Color(str string) (string, error) {
 	colors := []ColorInfo{
 		{"--- PASS", passing, ""},
 		{"PASS", passing, "^PASS$"},
 		{"ok", passing, "^ok"},
 		{"--- FAIL", failing, ""},
-		{"FAIL", failing, "^FAIL$"},
+		{"FAIL", failing, FailRegex},
 		{"=== RUN", running, ""},
 		{"--- SKIP", skipping, ""},
 	}
+	var err error
+	var exit error
 	for _, c := range colors {
-		str = process(str, c)
+		str, err = process(str, c)
+		if err != nil {
+			exit = err
+		}
 	}
-	return str
+	return str, exit
 }
 
-func process(str string, c ColorInfo) string {
+func process(str string, c ColorInfo) (string, error) {
 	if c.regex != "" {
 		return DyeRegex(str, c.text, c.regex, c.color)
 	}
-	return Dye(str, c.text, c.color)
+	return Dye(str, c.text, c.color), nil
 }
 
-func DyeRegex(old, value, regex string, color int) string {
+func DyeRegex(old, value, regex string, color int) (string, error) {
 	re := regexp.MustCompile(regex)
 	if re.MatchString(old) {
-		return Dye(old, value, color)
+		if regex == FailRegex {
+			return Dye(old, value, color), ErrFailExitCode
+		}
+		return Dye(old, value, color), nil
 	}
-	return old
+	return old, nil
 }
 func Dye(old, value string, color int) string {
 	return strings.Replace(old, value, tint.Colorize(value, color), 1)

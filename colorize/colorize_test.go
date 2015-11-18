@@ -23,7 +23,10 @@ func TestColorize(t *testing.T) {
 		{text: "--- FAIL", color: tint.LightRed, name: "light red"},
 	}
 	for _, str := range strs {
-		msg := colorize.Color(str.text)
+		msg, err := colorize.Color(str.text)
+		if err != nil && err != colorize.ErrFailExitCode {
+			t.Errorf(err.Error())
+		}
 		sample := colorize.Dye(str.text, str.text, str.color)
 
 		if msg != sample {
