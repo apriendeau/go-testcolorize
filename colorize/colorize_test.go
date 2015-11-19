@@ -10,30 +10,34 @@ import (
 
 func TestColorize(t *testing.T) {
 	var strs = []struct {
-		color int
-		name  string
-		text  string
+		color   int
+		name    string
+		text    string
+		errored bool
 	}{
-		{text: "--- SKIP", color: tint.Yellow, name: "yellow"},
-		{text: "=== RUN", color: tint.Cyan, name: "cyan"},
-		{text: "ok", color: tint.LightGreen, name: "light green"},
-		{text: "PASS", color: tint.LightGreen, name: "light green"},
-		{text: "FAIL", color: tint.LightRed, name: "light red"},
-		{text: "--- PASS", color: tint.LightGreen, name: "light green"},
-		{text: "--- FAIL", color: tint.LightRed, name: "light red"},
+		{text: "--- SKIP", color: tint.Yellow, name: "yellow", errored: false},
+		{text: "=== RUN", color: tint.Cyan, name: "cyan", errored: false},
+		{text: "ok", color: tint.LightGreen, name: "light green", errored: false},
+		{text: "PASS", color: tint.LightGreen, name: "light green", errored: false},
+		{text: "FAIL", color: tint.LightRed, name: "light red", errored: true},
+		{text: "--- PASS", color: tint.LightGreen, name: "light green", errored: false},
+		{text: "--- FAIL", color: tint.LightRed, name: "light red", errored: true},
+		{text: "testing.go:12345:", color: tint.Magenta, name: "magenta", errored: true},
+		{text: "boom.go:15:", color: tint.Magenta, name: "magenta", errored: true},
+		{text: "testing.go:1234567890:", color: tint.Magenta, name: "magenta", errored: true},
+		{text: "testing.go:1:", color: tint.Magenta, name: "magenta", errored: true},
 	}
 	for _, str := range strs {
 		msg, err := colorize.Color(str.text)
-		if err != nil {
-			if str.text == "FAIL" && err != colorize.ErrFailExitCode {
-				t.Errorf("FAIL should have an err: " + colorize.ErrFailExitCode.Error())
+		if str.errored {
+			if err == nil {
+				t.Errorf("%s should have had an error", str.text)
 			}
-			if str.text != "FAIL" {
-				t.Errorf(err.Error())
+			if err != colorize.ErrFailExitCode {
+				t.Errorf("%s should have had the error: %s", str.text, colorize.ErrFailExitCode.Error())
 			}
 		}
 		sample := colorize.Dye(str.text, str.text, str.color)
-
 		if msg != sample {
 			t.Errorf("%s is not colored %s", msg, str.name)
 		}
