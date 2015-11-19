@@ -34,7 +34,7 @@ func Color(str string) (string, error) {
 	colors := []ColorInfo{
 		{"--- PASS", passing, ""},
 		{"PASS", passing, PassRegex},
-		{"ok", passing, "^ok"},
+		{"ok ", passing, "^ok "},
 		{FailStr, failing, "--- FAIL"},
 		{"FAIL", failing, FailRegex},
 		{"=== RUN", running, ""},

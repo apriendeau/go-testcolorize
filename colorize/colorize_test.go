@@ -17,7 +17,7 @@ func TestColorize(t *testing.T) {
 	}{
 		{text: "--- SKIP", color: tint.Yellow, name: "yellow", errored: false},
 		{text: "=== RUN", color: tint.Cyan, name: "cyan", errored: false},
-		{text: "ok", color: tint.LightGreen, name: "light green", errored: false},
+		{text: "ok ", color: tint.LightGreen, name: "light green", errored: false},
 		{text: "PASS", color: tint.LightGreen, name: "light green", errored: false},
 		{text: "FAIL", color: tint.LightRed, name: "light red", errored: true},
 		{text: "--- PASS", color: tint.LightGreen, name: "light green", errored: false},
