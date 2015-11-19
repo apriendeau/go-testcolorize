@@ -14,7 +14,7 @@ const (
 	failing   = tint.LightRed
 	skipping  = tint.Yellow
 	file      = tint.Magenta
-	FailRegex = "^FAIL$"
+	FailRegex = "^FAIL"
 	FileRegex = "^.*.go:\\d*:"
 	FailStr   = "--- FAIL"
 	PassRegex = "^PASS$"
@@ -35,7 +35,7 @@ func Color(str string) (string, error) {
 		{"--- PASS", passing, ""},
 		{"PASS", passing, PassRegex},
 		{"ok", passing, "^ok"},
-		{FailStr, failing, ""},
+		{FailStr, failing, "--- FAIL"},
 		{"FAIL", failing, FailRegex},
 		{"=== RUN", running, ""},
 		{"--- SKIP", skipping, ""},
@@ -56,16 +56,13 @@ func process(str string, c ColorInfo) (string, error) {
 	if c.regex != "" {
 		return DyeRegex(str, c.text, c.regex, c.color)
 	}
-	if c.text == FailStr {
-		return Dye(str, c.text, c.color), ErrFailExitCode
-	}
 	return Dye(str, c.text, c.color), nil
 }
 
 func DyeRegex(old, value, regex string, color int) (string, error) {
 	re := regexp.MustCompile(regex)
 	if re.MatchString(old) {
-		if regex == FailRegex || regex == FileRegex {
+		if regex == FailRegex || regex == FileRegex || regex == "--- FAIL" {
 			value = re.FindString(old)
 			return Dye(old, value, color), ErrFailExitCode
 		}
