@@ -62,7 +62,7 @@ func process(str string, c ColorInfo) (string, error) {
 func DyeRegex(old, value, regex string, color int) (string, error) {
 	re := regexp.MustCompile(regex)
 	if re.MatchString(old) {
-		if regex == FailRegex || regex == FileRegex || regex == "--- FAIL" {
+		if regex == FailRegex || regex == "--- FAIL" {
 			value = re.FindString(old)
 			return Dye(old, value, color), ErrFailExitCode
 		}

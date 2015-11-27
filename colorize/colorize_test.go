@@ -22,10 +22,10 @@ func TestColorize(t *testing.T) {
 		{text: "FAIL", color: tint.LightRed, name: "light red", errored: true},
 		{text: "--- PASS", color: tint.LightGreen, name: "light green", errored: false},
 		{text: "--- FAIL", color: tint.LightRed, name: "light red", errored: true},
-		{text: "testing.go:12345:", color: tint.Magenta, name: "magenta", errored: true},
-		{text: "boom.go:15:", color: tint.Magenta, name: "magenta", errored: true},
-		{text: "testing.go:1234567890:", color: tint.Magenta, name: "magenta", errored: true},
-		{text: "testing.go:1:", color: tint.Magenta, name: "magenta", errored: true},
+		//{text: "testing.go:12345:", color: tint.Magenta, name: "magenta", errored: true},
+		//{text: "boom.go:15:", color: tint.Magenta, name: "magenta", errored: true},
+		//{text: "testing.go:1234567890:", color: tint.Magenta, name: "magenta", errored: true},
+		//{text: "testing.go:1:", color: tint.Magenta, name: "magenta", errored: true},
 	}
 	for _, str := range strs {
 		msg, err := colorize.Color(str.text)
