@@ -16,6 +16,7 @@ const (
 	file      = tint.Magenta
 	FailRegex = "^FAIL"
 	FileRegex = "^.*.go:\\d*:"
+	ExitRegex = "^exit status [1-9][0-9]*"
 	FailStr   = "--- FAIL"
 	PassRegex = "^PASS$"
 )
@@ -40,6 +41,7 @@ func Color(str string) (string, error) {
 		{"=== RUN", running, ""},
 		{"--- SKIP", skipping, ""},
 		{"", file, FileRegex},
+		{"", failing, ExitRegex},
 	}
 	var err error
 	var exit error
@@ -62,11 +64,16 @@ func process(str string, c ColorInfo) (string, error) {
 func DyeRegex(old, value, regex string, color int) (string, error) {
 	re := regexp.MustCompile(regex)
 	if re.MatchString(old) {
-		if regex == FailRegex || regex == "--- FAIL" {
+		switch regex {
+		case FailRegex, ExitRegex, FailStr:
 			value = re.FindString(old)
 			return Dye(old, value, color), ErrFailExitCode
+		case FileRegex:
+			value = re.FindString(old)
+			return Dye(old, value, color), nil
+		default:
+			return Dye(old, value, color), nil
 		}
-		return Dye(old, value, color), nil
 	}
 	return old, nil
 }
