@@ -30,6 +30,8 @@ func TestColorize(t *testing.T) {
 		{text: "exit status 484839393", color: tint.LightRed, name: "light red", errored: true},
 		{text: "exit status 939393", color: tint.LightRed, name: "light red", errored: true},
 		{text: "exit status 9123812983", color: tint.LightRed, name: "light red", errored: true},
+		{text: "testing: warning: no tests to run", color: tint.Yellow, name: "yellow", errored: false},
+		{text: "[no test files]", color: tint.Yellow, name: "yellow", errored: false},
 	}
 	for _, str := range strs {
 		msg, err := testcolorize.Color(str.text)
