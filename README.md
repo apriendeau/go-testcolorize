@@ -2,6 +2,7 @@
 
 Colorize your go test output!
 
+![gtc-screenging](https://raw.githubusercontent.com/apriendeau/go-testcolorize/master/img/output.gif)
 
 ## Installation
 
