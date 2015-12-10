@@ -1,10 +1,10 @@
-package colorize_test
+package testcolorize_test
 
 import (
 	"strings"
 	"testing"
 
-	"github.com/apriendeau/go-testcolorize/colorize"
+	"github.com/apriendeau/go-testcolorize"
 	"github.com/jwaldrip/tint"
 )
 
@@ -32,16 +32,16 @@ func TestColorize(t *testing.T) {
 		{text: "exit status 9123812983", color: tint.LightRed, name: "light red", errored: true},
 	}
 	for _, str := range strs {
-		msg, err := colorize.Color(str.text)
+		msg, err := testcolorize.Color(str.text)
 		if str.errored {
 			if err == nil {
 				t.Errorf("%s should have had an error", str.text)
 			}
-			if err != colorize.ErrFailExitCode {
-				t.Errorf("%s should have had the error: %s", str.text, colorize.ErrFailExitCode.Error())
+			if err != testcolorize.ErrFailExitCode {
+				t.Errorf("%s should have had the error: %s", str.text, testcolorize.ErrFailExitCode.Error())
 			}
 		}
-		sample := colorize.Dye(str.text, str.text, str.color)
+		sample := testcolorize.Dye(str.text, str.text, str.color)
 		if msg != sample {
 			t.Errorf("%s is not colored %s", msg, str.name)
 		}

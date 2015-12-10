@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/apriendeau/go-testcolorize/colorize"
+	"github.com/apriendeau/go-testcolorize"
 )
 
 var (
@@ -27,9 +27,9 @@ func Scan(input io.Reader) (int, error) {
 	exit := 0
 	for scanner.Scan() {
 		txt := scanner.Text()
-		str, err := colorize.Color(txt)
+		str, err := testcolorize.Color(txt)
 		if err != nil {
-			if err == colorize.ErrFailExitCode {
+			if err == testcolorize.ErrFailExitCode {
 				exit = 1
 			} else {
 				return 1, err

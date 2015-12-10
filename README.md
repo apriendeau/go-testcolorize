@@ -2,8 +2,15 @@
 
 Colorize your go test output!
 
-Example:
+## Installation
+
+```shell
+go get -u github.com/apriendeau/go-testcolorize/cmd/gtc
 ```
-$ go test -v ./... | go-testcolorize
+
+## Example:
+
+```shell
+$ go test -v ./... | gtc
 ```
 
