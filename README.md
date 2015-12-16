@@ -12,7 +12,14 @@ go get -u github.com/apriendeau/go-testcolorize/cmd/gtc
 
 ## Example:
 
+You can pipe `go test -v` into gtc like so:
+
 ```shell
 $ go test -v ./... | gtc
 ```
 
+or you can use the gtc wrapper `go test` wrapper:
+
+```shell
+$ gtc test ./...
+```
