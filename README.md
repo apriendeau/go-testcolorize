@@ -23,3 +23,12 @@ or you can use the gtc wrapper `go test` wrapper:
 ```shell
 $ gtc test ./...
 ```
+
+## Easter Eggs
+
+1.gtc will dye your strings grey if you println if you start them with "//"
+
+```go
+println("// some comment")
+```
+

@@ -22,7 +22,7 @@ const (
 	PassRegex    = "^PASS$"
 	NoTestsRegex = "(\\[no test files\\]$|no tests to run)"
 	StartOKRegex = "^ok "
-	CommentRegex = "^// *"
+	CommentRegex = "^//*"
 )
 
 var (
