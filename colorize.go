@@ -14,6 +14,7 @@ const (
 	failing      = tint.LightRed
 	skipping     = tint.Yellow
 	file         = tint.Magenta
+	comment      = tint.LightGrey
 	FailRegex    = "^FAIL"
 	FileRegex    = "^.*.go:\\d*:"
 	ExitRegex    = "^exit status [1-9][0-9]*"
@@ -21,6 +22,7 @@ const (
 	PassRegex    = "^PASS$"
 	NoTestsRegex = "(\\[no test files\\]$|no tests to run)"
 	StartOKRegex = "^ok "
+	CommentRegex = "^//*"
 )
 
 var (
@@ -45,6 +47,7 @@ func Color(str string) (string, error) {
 		{"", file, FileRegex},
 		{"", failing, ExitRegex},
 		{"", skipping, NoTestsRegex},
+		{"", comment, CommentRegex},
 	}
 	var err error
 	var exit error
@@ -74,9 +77,7 @@ func DyeRegex(old, value, regex string, color int) (string, error) {
 		case FileRegex:
 			value = re.FindString(old)
 			return Dye(old, value, color), nil
-		case NoTestsRegex:
-			return Dye(old, old, color), nil
-		case StartOKRegex:
+		case NoTestsRegex, StartOKRegex, CommentRegex:
 			return Dye(old, old, color), nil
 		default:
 			return Dye(old, value, color), nil
