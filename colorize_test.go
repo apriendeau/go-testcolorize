@@ -33,6 +33,7 @@ func TestColorize(t *testing.T) {
 		{text: "testing: warning: no tests to run", color: tint.Yellow, name: "yellow", errored: false},
 		{text: "[no test files]", color: tint.Yellow, name: "yellow", errored: false},
 		{text: "// some comment", color: tint.LightGrey, name: "light grey", errored: false},
+		{text: "// another comment to be safe", color: tint.LightGrey, name: "light grey", errored: false},
 	}
 	for _, str := range strs {
 		msg, err := testcolorize.Color(str.text)
