@@ -9,20 +9,21 @@ import (
 )
 
 const (
-	passing      = tint.LightGreen
-	running      = tint.Cyan
-	failing      = tint.LightRed
-	skipping     = tint.Yellow
-	file         = tint.Magenta
-	comment      = tint.LightGrey
-	FailRegex    = "^FAIL"
-	FileRegex    = "^.*.go:\\d*:"
-	ExitRegex    = "^exit status [1-9][0-9]*"
-	FailStr      = "--- FAIL"
-	PassRegex    = "^PASS$"
-	NoTestsRegex = "(\\[no test files\\]$|no tests to run)"
-	StartOKRegex = "^ok "
-	CommentRegex = "^//*"
+	passing       = tint.LightGreen
+	running       = tint.Cyan
+	failing       = tint.LightRed
+	skipping      = tint.Yellow
+	file          = tint.Magenta
+	comment       = tint.LightGrey
+	FailRegex     = "^(FAIL|\\tError:)"
+	FileRegex     = "^.*.go:\\d*:"
+	ExitRegex     = "^exit status [1-9][0-9]*"
+	FailStr       = "--- FAIL"
+	PassRegex     = "^PASS$"
+	NoTestsRegex  = "(\\[no test files\\]$|no tests to run)"
+	StartOKRegex  = "^ok "
+	CommentRegex  = "^//*"
+	LocationRegex = "\\tLocation:"
 )
 
 var (
@@ -45,6 +46,7 @@ func Color(str string) (string, error) {
 		{"=== RUN", running, ""},
 		{"--- SKIP", skipping, ""},
 		{"", file, FileRegex},
+		{"", file, LocationRegex},
 		{"", failing, ExitRegex},
 		{"", skipping, NoTestsRegex},
 		{"", comment, CommentRegex},
@@ -77,7 +79,8 @@ func DyeRegex(old, value, regex string, color int) (string, error) {
 		case FileRegex:
 			value = re.FindString(old)
 			return Dye(old, value, color), nil
-		case NoTestsRegex, StartOKRegex, CommentRegex:
+
+		case NoTestsRegex, StartOKRegex, CommentRegex, LocationRegex:
 			return Dye(old, old, color), nil
 		default:
 			return Dye(old, value, color), nil
