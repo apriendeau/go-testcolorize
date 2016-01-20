@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"regexp"
 
 	"github.com/apriendeau/go-testcolorize"
 	"github.com/spf13/pflag"
@@ -92,4 +93,16 @@ func pop(args []string, val string) []string {
 		}
 	}
 	return args
+}
+
+func isLogLine(txt string, err error) bool {
+	logre := regexp.MustCompile("\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}")
+	re := regexp.MustCompile("\\t([(a-zA-Z_.]*):[\\d]*:")
+	if err != nil {
+		return false
+	}
+	if re.MatchString(txt) || logre.MatchString(txt) {
+		return true
+	}
+	return false
 }

@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
-	"regexp"
 	"sync"
 
 	"github.com/apriendeau/go-testcolorize"
@@ -97,12 +96,4 @@ func Contains(a string, list []string) bool {
 		}
 	}
 	return false
-}
-
-func isLogLine(txt string, err error) bool {
-	re := regexp.MustCompile("\\t([(a-zA-Z_.]*):[\\d]*:")
-	if err != nil {
-		return false
-	}
-	return re.MatchString(txt)
 }
