@@ -78,7 +78,12 @@ func colortest(dst io.Writer, src io.Reader) {
 		func() {
 			mu.Lock()
 			defer mu.Unlock()
-			txt, _ := testcolorize.Color(line)
+			txt, err := testcolorize.Color(line)
+			if Silence {
+				if isLogLine(txt, err) {
+					return
+				}
+			}
 			fmt.Fprintln(dst, txt)
 		}()
 	}
