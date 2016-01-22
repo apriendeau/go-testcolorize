@@ -43,7 +43,7 @@ func main() {
 	}
 	args := os.Args
 	if Silence {
-		args = pop(args, "--silence")
+		args = arrRemove(args, "--silence")
 	}
 	if len(args) >= 2 {
 		switch args[1] {
@@ -86,7 +86,7 @@ func Scan(input io.Reader) (int, error) {
 
 }
 
-func pop(args []string, val string) []string {
+func arrRemove(args []string, val string) []string {
 	for i, arg := range args {
 		if arg == val {
 			args = append(args[:i], args[i+1:]...)
