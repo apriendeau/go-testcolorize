@@ -19,10 +19,10 @@ var (
 	Silence bool = false
 )
 
-const Usage = `gtc - Pipe go test or use the wrapper for some colorful tests
+const Usage = `gtc - Pipe go test or use the wrapper for some colorful test results
 
 Usage:
-	gtc test <args>
+	gtc test <go test flags> <args>
 	go test -v . |& gtc`
 
 func main() {
