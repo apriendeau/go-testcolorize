@@ -19,10 +19,10 @@ var (
 	Silence bool = false
 )
 
-const Usage = `gtc - Pipe go test or use the wrapper for some colorful tests
+const Usage = `gtc - Pipe go test or use the wrapper for some colorful test results
 
 Usage:
-	gtc test <args>
+	gtc test <go test flags> <args>
 	go test -v . |& gtc`
 
 func main() {
@@ -30,6 +30,15 @@ func main() {
 	fset.BoolVarP(&Help, "help", "h", false, "show help message")
 	fset.BoolVarP(&Verbose, "verbose", "v", true, "verbose output")
 	fset.BoolVar(&Silence, "silence", true, "silence log output")
+	args := os.Args
+	if len(args) >= 2 {
+		switch args[1] {
+		case "test":
+			Test(args[1:])
+			return
+		}
+	}
+
 	fset.Parse(os.Args)
 
 	show, err := fset.GetBool("help")
@@ -41,16 +50,8 @@ func main() {
 		fmt.Println(Usage)
 		os.Exit(84)
 	}
-	args := os.Args
 	if Silence {
 		args = arrRemove(args, "--silence")
-	}
-	if len(args) >= 2 {
-		switch args[1] {
-		case "test":
-			Test(args[1:])
-			return
-		}
 	}
 	code, err := Scan(Input)
 	if err != nil {
