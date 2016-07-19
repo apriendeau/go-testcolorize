@@ -10,9 +10,9 @@ import (
 
 func TestColorize(t *testing.T) {
 	var strs = []struct {
+		text    string
 		color   int
 		name    string
-		text    string
 		errored bool
 	}{
 		{text: "--- SKIP", color: tint.Yellow, name: "yellow", errored: false},
@@ -36,6 +36,10 @@ func TestColorize(t *testing.T) {
 		{text: "[no test files]", color: tint.Yellow, name: "yellow", errored: false},
 		{text: "// some comment", color: tint.LightGrey, name: "light grey", errored: false},
 		{text: "// another comment to be safe", color: tint.LightGrey, name: "light grey", errored: false},
+		{text: "✓", color: tint.LightGreen, name: "light green", errored: false},
+		{text: "\u2713", color: tint.LightGreen, name: "light green", errored: false},
+		{text: "✗", color: tint.LightRed, name: "light red", errored: true},
+		{text: "\u2717", color: tint.LightRed, name: "light red", errored: true},
 	}
 	for _, str := range strs {
 		msg, err := testcolorize.Color(str.text)

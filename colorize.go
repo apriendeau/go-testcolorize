@@ -33,6 +33,8 @@ const (
 	CommentRegex = "^//*"
 	// LocationRegex determins if there is a location line
 	LocationRegex = "\\tLocation:"
+	Checkmark     = "(\u2713|✓)"
+	XMark         = "(\u2717|✗)"
 )
 
 var (
@@ -63,6 +65,8 @@ func Color(str string) (string, error) {
 		{"", failing, ExitRegex},
 		{"", skipping, NoTestsRegex},
 		{"", comment, CommentRegex},
+		{"", passing, Checkmark},
+		{"", failing, XMark},
 	}
 	var err error
 	var exit error
@@ -91,13 +95,12 @@ func dyeRegex(old, value, regex string, color int) (string, error) {
 	re := regexp.MustCompile(regex)
 	if re.MatchString(old) {
 		switch regex {
-		case FailRegex, ExitRegex, FailStr:
+		case FailRegex, ExitRegex, FailStr, XMark:
 			value = re.FindString(old)
 			return Dye(old, value, color), ErrFailExitCode
-		case FileRegex:
+		case FileRegex, Checkmark:
 			value = re.FindString(old)
 			return Dye(old, value, color), nil
-
 		case NoTestsRegex, StartOKRegex, CommentRegex, LocationRegex:
 			return Dye(old, old, color), nil
 		default:
