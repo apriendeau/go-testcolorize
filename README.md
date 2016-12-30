@@ -2,27 +2,15 @@
 
 Colorize your go test output!
 
-![gtc-screenging](https://raw.githubusercontent.com/apriendeau/go-testcolorize/master/img/output.gif)
-
 ## Installation
 
 ```shell
 go get -u github.com/apriendeau/go-testcolorize/cmd/gtc
 ```
 
-## Example:
+## Command Line Example:
 
-You can pipe `go test -v` into gtc like so:
-
-```shell
-$ go test -v ./... | gtc
-```
-
-or you can use the gtc wrapper `go test` wrapper:
-
-```shell
-$ gtc test ./...
-```
+The command tool: `gtc test {args}` is a wrapper that just executes `go test {args}` under the hood.
 
 ## Easter Eggs
 
