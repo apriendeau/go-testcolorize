@@ -33,12 +33,14 @@ func main() {
 	args := os.Args
 	if len(args) >= 2 {
 		switch args[1] {
+		case "help":
+			fmt.Println(Usage)
+			return
 		case "test":
 			Test(args[1:])
 			return
 		}
 	}
-
 	fset.Parse(os.Args)
 
 	show, err := fset.GetBool("help")
@@ -53,6 +55,8 @@ func main() {
 	if Silence {
 		args = arrRemove(args, "--silence")
 	}
+
+	fmt.Println("Piping into gtc is now deprecated if favor of `gtc test {args}`.")
 	code, err := Scan(Input)
 	if err != nil {
 		log.Fatal(err)
