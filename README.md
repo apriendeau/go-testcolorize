@@ -1,5 +1,8 @@
 # go-testcolorize
 
+[![GoDoc](https://godoc.org/github.com/apriendeau/go-testcolorize?status.svg)](https://godoc.org/github.com/apriendeau/go-testcolorize)
+[![CircleCI](https://circleci.com/gh/apriendeau/go-testcolorize.svg?style=svg)](https://circleci.com/gh/apriendeau/go-testcolorize)
+
 Colorize your go test output!
 
 ## Installation
